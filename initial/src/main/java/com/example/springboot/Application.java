@@ -9,8 +9,8 @@ import org.springframework.context.ApplicationContext;
 @SpringBootApplication
 public class Application {
 
-	public static void main(String[] args) {
-		ApplicationContext ctx = SpringApplication.run(Application.class, args);
+    public static void main(String[] args) {
+        ApplicationContext ctx = SpringApplication.run(Application.class, args);
 
 //		System.out.println("Let's inspect the beans provided by Spring Boot:");
 //
@@ -20,7 +20,7 @@ public class Application {
 //			System.out.println(beanName);
 //		}
 
-		System.out.println("  \n  ");
-	}
-	
+        System.out.println("  \n  ");
+    }
+
 }
