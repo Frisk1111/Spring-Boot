@@ -60,6 +60,29 @@ public class Request_body_tasks {
     }
 
 
+    //    Exercise 2: Create a PostMapping to update a meal by name
+//
+//1 - Create a new endpoint "/meal/{name}" using the @PutMapping annotation.
+//2 - In the method, add a PathVariable for the name and a RequestBody for the updated Meal object.
+//3 - Update the meal with the corresponding name using the information from the RequestBody.
+
+
+    @PostMapping("/meal/{name}")
+    ResponseEntity<?> updatingByMealName(@PathVariable("name") String name, @RequestBody Meal updatedMeal) {
+
+
+        //così rimuoviamo dalla lista la portata che corrisponde al PathVariable name!
+        mealList.removeIf(m -> m.getName().toLowerCase().equals(name));
+
+//aggiungiamo il body che sarà la stessa portata di prima ma con alcune specifiche aggiornate!
+        this.mealList.add(updatedMeal);
+
+        //e faccio ritornare un 200 status
+        return ResponseEntity.ok("Meal updated");
+
+    }
+
+
 
 
 }
