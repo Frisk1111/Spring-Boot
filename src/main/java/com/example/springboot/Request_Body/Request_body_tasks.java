@@ -83,6 +83,26 @@ public class Request_body_tasks {
     }
 
 
+    //Exercise 3: Create a DeleteMapping to delete a meal by name
+//
+//        1 - Create a new endpoint "/meal/{name}" using the @DeleteMapping annotation.
+//        2 - In the method, add a PathVariable for the name.
+//        3 - Delete the meal with the corresponding name.
+
+
+    @DeleteMapping("/meal/{name}")
+    ResponseEntity<?> deletingMealByName(@PathVariable("name") String name) {
+
+        //qua invece eliminiamo solo la portata che corrisponde a name!
+
+        this.mealList.removeIf(m -> m.getName().toLowerCase().equals(name));
+
+        return ResponseEntity.ok("\n  meal deleted!");
+
+
+    }
+
+
 
 
 }
