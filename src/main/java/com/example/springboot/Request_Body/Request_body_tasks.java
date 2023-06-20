@@ -123,6 +123,30 @@ public class Request_body_tasks {
     }
 
 
+    //        Exercise 5: Create a PutMapping to update the price of a meal by name
+//
+//        1 - Create a new endpoint "/meal/{name}/price" using the @PutMapping annotation.
+//        2 - In the method, add a PathVariable for the name and a RequestBody for the updated price.
+//        3 - Update the price of the meal with the corresponding name using the information from the RequestBody.
+//
+
+
+    @PutMapping("/meal/{name}/price")
+    ResponseEntity<?> updatingPricesByMealName(@PathVariable("name") String name, @RequestBody Meal newMeal) {
+
+        //anche qua come prima rimuoviamo la portata se corrisponde a name
+
+        this.mealList.removeIf(m -> m.getName().toLowerCase().equals(name));
+
+        //la rimettiamo ma stavolta con il prezzo aggiornato!
+        this.mealList.add(newMeal);
+
+        return ResponseEntity.ok("\n the price of this meal its  been updated!");
+
+
+    }
+
+
 
 
 }
