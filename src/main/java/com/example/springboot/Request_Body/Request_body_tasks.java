@@ -104,6 +104,26 @@ public class Request_body_tasks {
 
 
 
+//        Exercise 4: Create a DeleteMapping to delete all meals above a certain price
+//
+//        1 - Create a new endpoint "/meal/price/{price}" using the @DeleteMapping annotation.
+//        2 - In the method, add a PathVariable for the price.
+//        3 - Delete all meals with a price above the price from the PathVariable.
+//
+
+    @DeleteMapping("/meal/price/{price}")
+    ResponseEntity<?> deletingAllMealsWithThePrice(@PathVariable("price") double price) {
+
+
+        this.mealList.removeIf(m -> m.getPrice() > price);
+
+        return ResponseEntity.ok(" \n the meals that above this price have been deleted!");
+
+
+    }
+
+
+
 
 }
 
