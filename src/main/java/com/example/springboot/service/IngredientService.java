@@ -3,56 +3,63 @@ package com.example.springboot.service;
 import com.example.springboot.dao.IIngredientDao;
 import com.example.springboot.model.Ingredient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Service
 public class IngredientService {
     private final IIngredientDao IIngredientDao;
 
-    private final List<Ingredient> ingredientList;
-
     @Autowired
     public IngredientService(IIngredientDao IIngredientDao) {
         this.IIngredientDao = IIngredientDao;
-        this.ingredientList = new ArrayList<>();
+
     }
 
     public void addIngredient(Ingredient ingredient) {
 
-        ingredientList.add(ingredient);
-        IIngredientDao.save((Ingredient) ingredientList);
+
+        IIngredientDao.save(ingredient);
     }
 
-    public void updateIngredient(Ingredient ingredient) {
+    public void updateIngredient(Long id, Ingredient ingredient) throws ChangeSetPersister.NotFoundException {
 
-        ingredientList.removeIf(i -> i.getName().equals(ingredient.getName()));
-        ingredientList.add(ingredient);
 
-        IIngredientDao.save((Ingredient) ingredientList);
+        Ingredient existingIngredient = IIngredientDao.getReferenceById(id);
+
+        if (existingIngredient.getId().equals(id)) {
+
+
+            existingIngredient.setName(ingredient.getName());
+            existingIngredient.setVegetarian(ingredient.isVegetarian());
+            existingIngredient.setGlutenFree(ingredient.isGlutenFree());
+            existingIngredient.setVegan(ingredient.isVegan());
+            existingIngredient.setLactoseFree(ingredient.isLactoseFree());
+
+            IIngredientDao.save(existingIngredient);
+
+        } else {
+
+            System.out.println("Ingredient not found!!");
+
+            throw new ChangeSetPersister.NotFoundException();
+
+        }
+
+
     }
 
     public void deleteIngredient(Ingredient ingredient) {
 
-        ingredientList.removeIf(i -> i.getName().equals(ingredient.getName()));
-        IIngredientDao.save((Ingredient) ingredientList);
+        IIngredientDao.delete(ingredient);
     }
 
     public void getIngredient(Long id) {
 
-       String ingredientById=  ingredientList.stream().filter(i -> i.getId().equals(id)).collect(Collectors.toSet()).toString();
 
-       if(ingredientById.equals(id.toString())){
-           IIngredientDao.findById(id);
+        IIngredientDao.getReferenceById(id);
 
-       } else {
-
-           System.out.println("this doesn't exist!");
-       }
     }
 
 
